@@ -30,6 +30,7 @@ public class TableRepository implements TableRepositoryInterface {
         }
     }
     
+    @Override
     public void createTable(String name){
         try{
             /*
@@ -46,8 +47,22 @@ public class TableRepository implements TableRepositoryInterface {
             System.out.println(e);
         }
     }
+    @Override
     public void deleteTable(String name){
-        
+        try{
+            /*
+            String query = "CREATE TABLE ? (id int AUTO_INCREMENT, title varchar(255), body varchar(255))";
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, name);
+            preparedStatement.execute();
+            */
+            String query = "DELETE TABLE `" + name + "`";
+            Statement statement = conn.createStatement();
+            statement.execute(query);
+        }
+        catch(SQLException e){
+            System.out.println(e);
+        }
     }    
     
 }

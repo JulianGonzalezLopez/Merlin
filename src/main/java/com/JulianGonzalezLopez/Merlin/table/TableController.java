@@ -30,14 +30,6 @@ public class TableController {
         this.tableService = tableService;
     }
     
-    @GetMapping("/")
-    public ResponseEntity<String> getasd(){
-                return ResponseEntity
-                .status(HttpStatus.ACCEPTED)
-                .body("chi");
-    }
-    
-    
     @PostMapping("/")
     public ResponseEntity<String> createTable(
     @RequestBody String name){
@@ -49,10 +41,11 @@ public class TableController {
                 .body("ok");
     }
     
-    @DeleteMapping
-        public ResponseEntity<String> deleteTable(){
-        
-        
+    @DeleteMapping("/")
+    public ResponseEntity<String> deleteTable(
+    @RequestBody String name){
+        tableService.deleteTable(name);
+       
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)
                 .body("ok");
