@@ -4,10 +4,14 @@
  */
 package com.JulianGonzalezLopez.Merlin.entry;
 
+import java.sql.SQLException;
+
 /**
  *
  * @author julian.gonzalez
  */
 public interface EntryRepositoryInterface {
-    
+    public void create(CreateEntryRequest createEntryRequest)throws SQLException;
+    public void delete(int id, String tableName) throws SQLException; 
+
 }

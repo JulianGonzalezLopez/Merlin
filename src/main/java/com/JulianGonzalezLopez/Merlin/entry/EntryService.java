@@ -4,10 +4,31 @@
  */
 package com.JulianGonzalezLopez.Merlin.entry;
 
+import java.sql.SQLException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 /**
  *
  * @author julian.gonzalez
  */
-public class EntryService {
+@Service
+public class EntryService implements EntryServiceInterface {
+
+    private EntryRepositoryInterface entryRepository;
+    
+    @Autowired
+    public EntryService(EntryRepositoryInterface entryRepository){
+        this.entryRepository = entryRepository;
+    }
+    
+    @Override
+    public void create(CreateEntryRequest createEntryRequest) throws SQLException{
+        entryRepository.create(createEntryRequest);
+    }
+    @Override
+    public void delete(int id, String tableName) throws SQLException {
+        entryRepository.delete(id, tableName);
+    }
     
 }

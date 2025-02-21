@@ -37,8 +37,8 @@ public class TableController {
         tableService.createTable(name);
         
         return ResponseEntity
-                .status(HttpStatus.ACCEPTED)
-                .body("ok");
+                .status(201)
+                .build();
     }
     
     @DeleteMapping("/")
