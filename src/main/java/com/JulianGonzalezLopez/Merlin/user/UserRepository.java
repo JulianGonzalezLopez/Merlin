@@ -8,6 +8,20 @@ package com.JulianGonzalezLopez.Merlin.user;
  *
  * @author julian.gonzalez
  */
-public class UserRepository {
+public class UserRepository implements UserRepositoryInterface {
+    
+    public UserRepository(){
+        
+    }
+    
+    public void create(User user){
+        
+    }
+    
+    public void delete(int user_id){
+        
+    }
+
+    
     
 }

@@ -8,11 +8,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author julian.gonzalez
  */
+@Repository
 public class EntryRepository implements EntryRepositoryInterface {
         
     private Connection conn;

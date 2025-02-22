@@ -39,9 +39,13 @@ public class TableRepository implements TableRepositoryInterface {
             preparedStatement.setString(1, name);
             preparedStatement.execute();
             */
-            String query = "CREATE TABLE `" + name + "` (id int AUTO_INCREMENT, title varchar(255), body varchar(255), PRIMARY KEY(id))";
+            String query = "CREATE TABLE `" + name + "` (id int AUTO_INCREMENT, title varchar(255), body varchar(255), int creator_id, int last_editor_id, PRIMARY KEY(id))";
             Statement statement = conn.createStatement();
             statement.execute(query);
+            String query2 = "INSERT INTO MerlinTables(name) values(?)";
+            PreparedStatement preparedStatement = conn.prepareStatement(query2);
+            preparedStatement.setString(1, name);
+            preparedStatement.execute();
         }
         catch(SQLException e){
             System.out.println(e);
