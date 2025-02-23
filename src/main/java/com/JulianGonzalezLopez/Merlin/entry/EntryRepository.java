@@ -4,10 +4,10 @@
  */
 package com.JulianGonzalezLopez.Merlin.entry;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import com.JulianGonzalezLopez.Merlin.DbConnector;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -17,21 +17,17 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class EntryRepository implements EntryRepositoryInterface {
         
-    private Connection conn;
+    private final DbConnector dbConnector;
     
-    public EntryRepository(){
-        try{
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/MerlinDB?" + "user=root&password=root");
-        }
-        catch(SQLException e){
-            System.out.println(e);
-        }
+    @Autowired
+    public EntryRepository(DbConnector dbConnector){
+        this.dbConnector = dbConnector;
     }
     
     @Override
     public void create(CreateEntryRequest createEntryRequest) throws SQLException {
         String query = "INSERT INTO " + createEntryRequest.getTableName() + " (title, body) VALUES (?, ?)";
-        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query)) {
             preparedStatement.setString(1, createEntryRequest.getEntry().getTitle());
             preparedStatement.setString(2, createEntryRequest.getEntry().getBody());
             preparedStatement.executeUpdate();
@@ -40,7 +36,7 @@ public class EntryRepository implements EntryRepositoryInterface {
     @Override
     public void delete(int id, String tableName) throws SQLException {
         String query = "DELETE FROM " + tableName + "WHERE id = ?";
-        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query)) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         }

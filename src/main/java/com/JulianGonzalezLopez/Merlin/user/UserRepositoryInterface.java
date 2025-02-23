@@ -4,12 +4,14 @@
  */
 package com.JulianGonzalezLopez.Merlin.user;
 
+import java.sql.SQLException;
+
 /**
  *
  * @author julian.gonzalez
  */
 public interface UserRepositoryInterface {
     
-    public void create(User user);
-    public void delete(int user_id);
+    public void create(User user) throws SQLException ;
+    public void delete(int user_id) throws SQLException ;
 }

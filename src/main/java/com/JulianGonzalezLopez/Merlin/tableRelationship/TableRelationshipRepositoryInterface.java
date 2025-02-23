@@ -4,12 +4,14 @@
  */
 package com.JulianGonzalezLopez.Merlin.tableRelationship;
 
+import java.sql.SQLException;
+
 /**
  *
  * @author Julian
  */
 public interface TableRelationshipRepositoryInterface {
-    public void create(TableRelationship tableRelationship);
-    public void delete(TableRelationship tableRelationship);
+    public void create(TableRelationship tableRelationship) throws SQLException;
+    public void delete(TableRelationship tableRelationship) throws SQLException;
 }
 
