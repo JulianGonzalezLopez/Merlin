@@ -4,6 +4,7 @@
  */
 package com.JulianGonzalezLopez.Merlin.user;
 
+import java.sql.SQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,7 +30,7 @@ public class UserController {
     
     @PostMapping("/")
     public ResponseEntity<String> create(
-    @RequestBody User user){
+    @RequestBody User user) throws SQLException  {
         userService.create(user);
         
         return ResponseEntity
@@ -39,7 +40,7 @@ public class UserController {
     
     @DeleteMapping("/")
     public ResponseEntity<String> delete(
-    @RequestBody int user_id){
+    @RequestBody int user_id) throws SQLException {
         userService.delete(user_id);
         
         return ResponseEntity

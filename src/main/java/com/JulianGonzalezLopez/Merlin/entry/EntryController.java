@@ -7,9 +7,11 @@ package com.JulianGonzalezLopez.Merlin.entry;
 import java.sql.SQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -37,5 +39,18 @@ public class EntryController {
                 .status(201)
                 .build();
            
+    }
+    
+    @DeleteMapping("/")
+    public ResponseEntity<String> delete(
+    @RequestParam int id,
+    @RequestParam String tableName
+    ) throws SQLException {
+        
+        entryService.delete(id, tableName);
+        return ResponseEntity
+                .status(200)
+                .build();
+        
     }
 }
