@@ -5,6 +5,7 @@
 package com.JulianGonzalezLopez.Merlin.entry;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,11 @@ public class EntryService implements EntryServiceInterface {
     @Autowired
     public EntryService(EntryRepositoryInterface entryRepository){
         this.entryRepository = entryRepository;
+    }
+    
+    @Override
+    public ArrayList<Entry> getAll(String tableName) throws SQLException {
+        return entryRepository.getAll(tableName);
     }
     
     @Override

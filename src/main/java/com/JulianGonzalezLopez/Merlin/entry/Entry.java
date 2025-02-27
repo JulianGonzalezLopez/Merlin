@@ -15,17 +15,8 @@ public class Entry {
    
    private String title;
    private String body;
-   private String tableBelongedTo;
    private int creator_id;
    private int last_editor_id;
-
-    public String getTableBelongedTo() {
-        return tableBelongedTo;
-    }
-
-    public void setTableBelongedTo(String tableBelongedTo) {
-        this.tableBelongedTo = tableBelongedTo;
-    }
 
     public int getCreator_id() {
         return creator_id;
@@ -50,6 +41,10 @@ public class Entry {
         this.last_editor_id = last_editor_id;
     }
    
+    public Entry(){
+        
+    }
+    
     public String getTitle() {
         return title;
     }

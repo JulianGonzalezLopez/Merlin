@@ -6,7 +6,9 @@ package com.JulianGonzalezLopez.Merlin.entry;
 
 import com.JulianGonzalezLopez.Merlin.DbConnector;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -24,6 +26,29 @@ public class EntryRepository implements EntryRepositoryInterface {
         this.dbConnector = dbConnector;
     }
     
+    @Override
+    public ArrayList<Entry> getAll(String tableName) throws SQLException {
+        String query = "SELECT * FROM ?";
+        try (PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query)) {
+            preparedStatement.setString(1, tableName);
+            ResultSet resultSet = preparedStatement.getResultSet();
+            
+            ArrayList<Entry> resultSetMapped = new ArrayList();
+            
+            while(resultSet.next()){
+                Entry e = new Entry();
+                e.setTitle(resultSet.getString("title"));
+                e.setBody(resultSet.getString("body"));
+                e.setCreator_id(resultSet.getInt("creator_id"));
+                e.setLast_editor_id(resultSet.getInt("last_editor_id"));
+                resultSetMapped.add(e);
+            }
+            
+            return resultSetMapped;
+            
+        }        
+    }
+
     @Override
     public void create(CreateEntryRequest createEntryRequest) throws SQLException {
         String query = "INSERT INTO " + createEntryRequest.getTableName() + " (title, body) VALUES (?, ?)";
