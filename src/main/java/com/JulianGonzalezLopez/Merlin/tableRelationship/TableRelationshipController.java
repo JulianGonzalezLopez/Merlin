@@ -4,6 +4,7 @@
  */
 package com.JulianGonzalezLopez.Merlin.tableRelationship;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,18 +27,54 @@ public class TableRelationshipController {
     
     @PostMapping("/")
     public ResponseEntity<String> create(TableRelationship tableRelationship){
+        
+        try{
+            //CONTENT ERRORS
+            if(tableRelationship.getParent_id() < 1 && tableRelationship.getChild_id() < 1){
+                throw new Error("parent_id and child_id must be 1 or higher");
+            }
+
+            if(tableRelationship.getParent_id() < 1){
+                throw new Error("parent_id must be 1 or higher");
+            }
+
+            if(tableRelationship.getChild_id() < 1){
+                throw new Error("child_id must be 1 or higher");
+            }  
+        }
+        catch(Error e){
+            return new ResponseEntity<>(e.getMessage(), null, HttpStatus.BAD_REQUEST);
+        }
+                  
+        //NORMAL WORLFLOW
         tableRelationshipService.create(tableRelationship);
-        return ResponseEntity
-            .status(201)
-            .build();
+        return new ResponseEntity<>("CREATED", null, HttpStatus.ACCEPTED);        
     }
     
     @DeleteMapping("/")
     public ResponseEntity<String> delete(TableRelationship tableRelationship){
+        
+        try{
+            //CONTENT ERRORS
+            if(tableRelationship.getParent_id() < 1 && tableRelationship.getChild_id() < 1){
+                throw new Error("parent_id and child_id must be 1 or higher");
+            }
+
+            if(tableRelationship.getParent_id() < 1){
+                throw new Error("parent_id must be 1 or higher");
+            }
+
+            if(tableRelationship.getChild_id() < 1){
+                throw new Error("child_id must be 1 or higher");
+            }  
+        }
+        catch(Error e){
+            return new ResponseEntity<>(e.getMessage(), null, HttpStatus.BAD_REQUEST);
+        }
+              
+        //NORMAL WORLFLOW
         tableRelationshipService.delete(tableRelationship);
-        return ResponseEntity
-            .status(200)
-            .build();
+        return new ResponseEntity<>("DELETED", null, HttpStatus.ACCEPTED);
     }
     
 }

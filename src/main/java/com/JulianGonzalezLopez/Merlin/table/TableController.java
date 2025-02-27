@@ -32,23 +32,51 @@ public class TableController {
     
     @PostMapping("/")
     public ResponseEntity<String> createTable(
-    @RequestBody String name){
+    @RequestBody String tableName){
         
-        tableService.createTable(name);
+        try{
+        //TYPE ERRORS
+        if(!(tableName instanceof String)){
+            throw new Error("tableName must be of type String");
+        }
         
-        return ResponseEntity
-                .status(201)
-                .build();
+        //CONTENT ERRORS
+        if(tableName.length() < 1){
+            throw new Error("tableName must be at least 1 character long");
+        }
+
+        }
+        catch(Error e){
+            return new ResponseEntity<>(e.getMessage(), null, HttpStatus.BAD_REQUEST);
+        }
+                 
+        //NORMAL WORLFLOW
+        tableService.createTable(tableName);
+        return new ResponseEntity<>("CREATED", null, HttpStatus.ACCEPTED);
     }
     
     @DeleteMapping("/")
     public ResponseEntity<String> deleteTable(
-    @RequestBody String name){
-        tableService.deleteTable(name);
-       
-        return ResponseEntity
-                .status(HttpStatus.ACCEPTED)
-                .body("ok");
+    @RequestBody String tableName){
+        
+        try{
+        //TYPE ERRORS
+        if(!(tableName instanceof String)){
+            throw new Error("tableName must be of type String");
+        }
+        
+        //CONTENT ERRORS
+        if(tableName.length() < 1){
+            throw new Error("tableName must be at least 1 character long");
+        }
+
+        }
+        catch(Error e){
+            return new ResponseEntity<>(e.getMessage(), null, HttpStatus.BAD_REQUEST);
+        }
+                 
+        //NORMAL WORLFLOW
+        tableService.deleteTable(tableName);
+        return new ResponseEntity<>("DELETED", null, HttpStatus.ACCEPTED);
     }
-    
 }
