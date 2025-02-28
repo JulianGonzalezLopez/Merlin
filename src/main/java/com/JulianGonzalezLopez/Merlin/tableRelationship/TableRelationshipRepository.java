@@ -6,7 +6,9 @@ package com.JulianGonzalezLopez.Merlin.tableRelationship;
 
 import com.JulianGonzalezLopez.Merlin.DbConnector;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -23,6 +25,22 @@ public class TableRelationshipRepository implements TableRelationshipRepositoryI
     public TableRelationshipRepository(DbConnector dbConnector){
         this.dbConnector = dbConnector;
     }
+    
+    @Override
+    public ArrayList<TableRelationship> getAll() throws SQLException {
+        String query = "SELECT * FROM MerlinTablesRelationships";
+        try (PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.getResultSet();
+            ArrayList<TableRelationship> resultSetMapped = new ArrayList();
+            while(resultSet.next()){
+                TableRelationship tr = new TableRelationship();
+                tr.setChild_id(resultSet.getInt("child_id"));
+                tr.setParent_id(resultSet.getInt("parent_id"));
+                resultSetMapped.add(tr);
+            }
+            return resultSetMapped;
+        }        
+    }      
     
     @Override
     public void create(TableRelationship tableRelationship) throws SQLException {

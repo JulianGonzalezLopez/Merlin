@@ -17,6 +17,10 @@ public class TableRelationship {
         this.child_id = child_id;
     }
 
+    public TableRelationship(){
+        
+    }
+    
     public int getParent_id() {
         return parent_id;
     }

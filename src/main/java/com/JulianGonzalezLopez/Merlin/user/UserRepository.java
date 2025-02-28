@@ -5,8 +5,11 @@
 package com.JulianGonzalezLopez.Merlin.user;
 
 import com.JulianGonzalezLopez.Merlin.DbConnector;
+import com.JulianGonzalezLopez.Merlin.tableRelationship.TableRelationship;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -23,6 +26,22 @@ public class UserRepository implements UserRepositoryInterface {
     public UserRepository(DbConnector dbConnector){
         this.dbConnector = dbConnector;
     }
+    
+    @Override
+    public ArrayList<User> getAll() throws SQLException {
+        String query = "SELECT * FROM MerlinUsers";
+        try (PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.getResultSet();
+            ArrayList<User> resultSetMapped = new ArrayList();
+            while(resultSet.next()){
+                User u = new User();
+                u.setUsername(resultSet.getString("username"));
+                u.setId(resultSet.getInt("id"));
+                resultSetMapped.add(u);
+            }
+            return resultSetMapped;
+        }        
+    }     
 
     @Override
     public void create(User user) throws SQLException {

@@ -18,6 +18,10 @@ public class CreatePermissionRequest {
         this.table_id = table_id;
         this.permission = permission;
     }
+    
+    public CreatePermissionRequest(){
+        
+    }
 
     public int getUser_id() {
         return user_id;

@@ -5,6 +5,7 @@
 package com.JulianGonzalezLopez.Merlin.tableRelationship;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,5 +14,6 @@ import java.sql.SQLException;
 public interface TableRelationshipRepositoryInterface {
     public void create(TableRelationship tableRelationship) throws SQLException;
     public void delete(TableRelationship tableRelationship) throws SQLException;
+    public ArrayList<TableRelationship> getAll() throws SQLException;
 }
 

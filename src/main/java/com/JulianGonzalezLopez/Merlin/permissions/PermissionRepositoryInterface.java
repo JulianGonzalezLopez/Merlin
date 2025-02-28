@@ -5,6 +5,7 @@
 package com.JulianGonzalezLopez.Merlin.permissions;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,4 +14,5 @@ import java.sql.SQLException;
 public interface PermissionRepositoryInterface {
     public void create(CreatePermissionRequest createPermissionRequest) throws SQLException;
     public void delete(CreatePermissionRequest createPermissionRequest) throws SQLException;
+    public ArrayList<CreatePermissionRequest> getAll() throws SQLException;  
 }
