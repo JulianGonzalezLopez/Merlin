@@ -4,6 +4,8 @@
  */
 package com.JulianGonzalezLopez.Merlin.tableRelationship;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +24,18 @@ public class TableRelationshipService implements TableRelationshipServiceInterfa
         this.tableRelationshipRepository = tableRelationshipRepository;
     }
     
-    public void create(TableRelationship tableRelationship){
-        
+    @Override
+    public ArrayList<TableRelationship> getAll() throws SQLException {
+        return tableRelationshipRepository.getAll();
     }
-    public void delete(TableRelationship tableRelationship){
-        
+    
+    @Override
+    public void create(TableRelationship tableRelationship) throws SQLException {
+        tableRelationshipRepository.create(tableRelationship);
+    }
+    
+    @Override
+    public void delete(TableRelationship tableRelationship) throws SQLException {
+        tableRelationshipRepository.delete(tableRelationship);
     }
 }

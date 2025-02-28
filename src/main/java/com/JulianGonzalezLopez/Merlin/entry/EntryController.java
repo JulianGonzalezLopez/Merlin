@@ -32,7 +32,7 @@ public class EntryController {
         this.entryService = entryService;
     }
     
-    @GetMapping("/")
+    @GetMapping("/all")
     public ResponseEntity<?> getAll(
     @RequestParam String tableName) throws SQLException {
         

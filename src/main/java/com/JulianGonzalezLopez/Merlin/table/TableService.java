@@ -4,6 +4,8 @@
  */
 package com.JulianGonzalezLopez.Merlin.table;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +23,17 @@ public class TableService implements TableServiceInterface {
         this.tableRepository = tableRepository;
     }
     
+    @Override
+    public ArrayList<String> getAll() throws SQLException {
+        return tableRepository.getAll();
+    }
+    
+    @Override
     public void createTable(String name){
         tableRepository.createTable(name);
     }
     
+    @Override
     public void deleteTable(String name){
         tableRepository.deleteTable(name);
     }

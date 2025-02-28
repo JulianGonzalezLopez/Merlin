@@ -4,9 +4,14 @@
  */
 package com.JulianGonzalezLopez.Merlin.permissions;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,10 +30,17 @@ public class PermissionController {
     public PermissionController(PermissionServiceInterface permissionService){
         this.permissionService = permissionService;
     }
-     
+    
+    @GetMapping("/all")
+    public ResponseEntity<ArrayList<CreatePermissionRequest>> getAll() throws SQLException {
+        ArrayList<CreatePermissionRequest> all = permissionService.getAll();
+        return new ResponseEntity<>(all, null, HttpStatus.ACCEPTED);
+    }
+
+    
+    @PostMapping("/")
     public ResponseEntity<?> create(
-        @RequestBody CreatePermissionRequest createPermissionRequest){
-        
+        @RequestBody CreatePermissionRequest createPermissionRequest) throws SQLException {
 
         try{
             //TYPE ERRORS
@@ -57,11 +69,11 @@ public class PermissionController {
         permissionService.create(createPermissionRequest);
         
         return new ResponseEntity<>("CREATED", null, HttpStatus.ACCEPTED);
-
     }
-            
+          
+    @DeleteMapping("/")
     public ResponseEntity<String> delete(
-        @RequestBody CreatePermissionRequest createPermissionRequest){
+        @RequestBody CreatePermissionRequest createPermissionRequest) throws SQLException {
         
         String error = null;
 
@@ -83,7 +95,6 @@ public class PermissionController {
         if(createPermissionRequest.getTable_id() < 1){
             error = "table_id must be 1 or higher";
         }
-        
         
         //ERROR HANDLER
         if(error != null){

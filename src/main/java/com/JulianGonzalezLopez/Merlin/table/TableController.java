@@ -4,11 +4,12 @@
  */
 package com.JulianGonzalezLopez.Merlin.table;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,13 @@ public class TableController {
     public TableController(TableService tableService){
         this.tableService = tableService;
     }
+    
+    public ResponseEntity<ArrayList<String>> getAll() throws SQLException {
+        ArrayList<String> all = tableService.getAll();
+        
+        return new ResponseEntity<>(all, null, HttpStatus.ACCEPTED);
+    }
+    
     
     @PostMapping("/")
     public ResponseEntity<String> createTable(

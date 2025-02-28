@@ -39,17 +39,13 @@ public class TableRepository implements TableRepositoryInterface {
             while(resultSet.next()){
                 resultSetMapped.add(resultSet.getString(1));
             }
-            
             return resultSetMapped;
-            
         }        
     }    
-
     
     @Override
     public void createTable(String name){
         try{
-
             String query = "CREATE TABLE `" + name + "` (id int AUTO_INCREMENT, title varchar(255), body varchar(255), int creator_id, int last_editor_id, PRIMARY KEY(id))";
             Statement statement = dbConnector.getConn().createStatement();
             statement.execute(query);

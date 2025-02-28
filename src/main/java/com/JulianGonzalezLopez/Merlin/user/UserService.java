@@ -5,6 +5,7 @@
 package com.JulianGonzalezLopez.Merlin.user;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,11 @@ public class UserService implements UserServiceInterface {
         this.userRepository = userRepository;
     }
     
+    @Override
+    public ArrayList<User> getAll() throws SQLException {
+        return userRepository.getAll();
+    }
+
     @Override
     public void create(User user) throws SQLException {
         userRepository.create(user);

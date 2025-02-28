@@ -4,6 +4,9 @@
  */
 package com.JulianGonzalezLopez.Merlin.table;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 /**
  *
  * @author julian.gonzalez
@@ -12,5 +15,5 @@ public interface TableServiceInterface {
     
     public void createTable(String name);
     public void deleteTable(String name);
-    
+    public ArrayList<String> getAll() throws SQLException;
 }

@@ -5,12 +5,15 @@
 package com.JulianGonzalezLopez.Merlin.user;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
  * @author julian.gonzalez
  */
 public interface UserServiceInterface {
-    public void create(User user) throws SQLException ;
-    public void delete(int user_id) throws SQLException ;
+    public void create(User user) throws SQLException;
+    public void delete(int user_id) throws SQLException;
+    public ArrayList<User> getAll() throws SQLException;
+
 }

@@ -5,6 +5,7 @@
 package com.JulianGonzalezLopez.Merlin.user;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,37 +30,34 @@ public class UserController {
         this.userService = userService;
     }
     
+    public ResponseEntity<ArrayList<User>> getAll() throws SQLException {
+        ArrayList<User> all = userService.getAll();
+        return new ResponseEntity<>(all, null, HttpStatus.ACCEPTED);
+    }
+
     @PostMapping("/")
     public ResponseEntity<String> create(
-    @RequestBody User user) throws SQLException  {
-       
+    @RequestBody User user) throws SQLException  {       
         try{
             if(!(user.getUsername() instanceof String) && !(user.getPassword() instanceof String)){
                 throw new Error("username and password must be of type String");
             }
-            
             if(!(user.getUsername() instanceof String)){
                 throw new Error("username must be of type String");
             }
-            
             if(!(user.getPassword() instanceof String)){
                 throw new Error("password must be of type String");
             }
-            
             //UID GIVEN BY THE SERVER, NOT TO WORRY ABOUT
-            
             if(user.getUsername().length() < 1 && user.getPassword().length() < 8){
                throw new Error("username must be at least 1 character long and password must be at least 8 characters long");
             }
-            
             if(user.getUsername().length() < 1){
                throw new Error("username must be at least 1 character long");
             }
-           
             if(user.getPassword().length() < 8){
                throw new Error("password must be at least 8 characters long");
             }
-            
         }
         catch(Error e){
             return new ResponseEntity(e.getMessage(), null, HttpStatus.BAD_REQUEST);
