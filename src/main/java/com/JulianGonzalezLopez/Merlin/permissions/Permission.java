@@ -8,4 +8,4 @@ package com.JulianGonzalezLopez.Merlin.permissions;
  *
  * @author Julian
  */
-public enum Permission {R,RW}
+public enum Permission {READ, WRITE, ADMIN}

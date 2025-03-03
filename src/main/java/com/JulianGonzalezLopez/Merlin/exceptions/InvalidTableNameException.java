@@ -6,10 +6,10 @@ package com.JulianGonzalezLopez.Merlin.exceptions;
 
 /**
  *
- * @author julian.gonzalez
+ * @author Julian
  */
-public class SystemBreakingException extends Exception {
-    public SystemBreakingException(String message){
+public class InvalidTableNameException extends RuntimeException {
+    public InvalidTableNameException(String message){
         super(message);
-    }    
+    }
 }

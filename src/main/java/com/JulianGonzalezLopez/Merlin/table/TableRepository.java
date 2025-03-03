@@ -33,41 +33,43 @@ public class TableRepository implements TableRepositoryInterface {
     @Override
     public ArrayList<String> getAll() throws SQLException {
         String query = "SHOW TABLES";
-        try (PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query)) {
-            ResultSet resultSet = preparedStatement.getResultSet();
+        try {
+            ResultSet resultSet = dbConnector.getConn().prepareStatement(query).executeQuery();
+            System.out.println(resultSet);
             ArrayList<String> resultSetMapped = new ArrayList();
             while(resultSet.next()){
                 resultSetMapped.add(resultSet.getString(1));
             }
             return resultSetMapped;
-        }        
+        }  
+        catch(Error e){
+            System.out.println(e);
+            throw new SQLException(e.getMessage());
+        }
     }    
     
     @Override
-    public void createTable(String name){
+    public void createTable(String name) throws SQLException{
         try{
-            String query = "CREATE TABLE `" + name + "` (id int AUTO_INCREMENT, title varchar(255), body varchar(255), int creator_id, int last_editor_id, PRIMARY KEY(id))";
+            String query = "CREATE TABLE `" + name + "` (id int AUTO_INCREMENT, title varchar(255), body varchar(255),creator_id int,last_editor_id int, PRIMARY KEY(id))";
+            System.out.println(query);
             Statement statement = dbConnector.getConn().createStatement();
             statement.execute(query);
-            String query2 = "INSERT INTO MerlinTables(name) values(?)";
-            PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query2);
-            preparedStatement.setString(1, name);
-            preparedStatement.execute();
         }
         catch(SQLException e){
-            System.out.println(e);
+            throw e;
         }
+
     }
     @Override
-    public void deleteTable(String name){
+    public void deleteTable(String name) throws SQLException{
         try{
-
-            String query = "DELETE TABLE `" + name + "`";
+            String query = "DROP TABLE `" + name + "`";
             Statement statement = dbConnector.getConn().createStatement();
             statement.execute(query);
         }
         catch(SQLException e){
-            System.out.println(e);
+            throw e;
         }
     }    
     

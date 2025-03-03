@@ -28,13 +28,16 @@ public class EntryRepository implements EntryRepositoryInterface {
     
     @Override
     public ArrayList<Entry> getAll(String tableName) throws SQLException {
-        String query = "SELECT * FROM ?";
+        String query = "SELECT * FROM " + tableName; // No me dejó usar preparedStatements con el nombre de la tabla :/
+        
         try (PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query)) {
-            preparedStatement.setString(1, tableName);
-            ResultSet resultSet = preparedStatement.getResultSet();
-            
-            ArrayList<Entry> resultSetMapped = new ArrayList();
-            
+            ResultSet resultSet = preparedStatement.executeQuery(); 
+            ArrayList<Entry> resultSetMapped = new ArrayList<>();
+        
+            if(resultSet == null){
+                return null; //Se retorna null 
+            }
+
             while(resultSet.next()){
                 Entry e = new Entry();
                 e.setTitle(resultSet.getString("title"));
@@ -60,9 +63,11 @@ public class EntryRepository implements EntryRepositoryInterface {
     }
     @Override
     public void delete(int id, String tableName) throws SQLException {
-        String query = "DELETE FROM " + tableName + "WHERE id = ?";
+        String query = "DELETE FROM " + tableName + " WHERE id = ?";
         try (PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query)) {
+            System.out.println(preparedStatement.toString());
             preparedStatement.setInt(1, id);
+            System.out.println(preparedStatement.toString());            
             preparedStatement.executeUpdate();
         }
     }

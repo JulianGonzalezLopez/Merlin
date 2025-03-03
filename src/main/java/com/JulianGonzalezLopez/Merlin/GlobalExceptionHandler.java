@@ -4,8 +4,10 @@
  */
 package com.JulianGonzalezLopez.Merlin;
 
+import com.JulianGonzalezLopez.Merlin.exceptions.InvalidTableNameException;
 import com.JulianGonzalezLopez.Merlin.exceptions.SystemBreakingException;
 import java.sql.SQLException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -18,21 +20,19 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
     
     @ExceptionHandler({SystemBreakingException.class})
-    public ResponseEntity<String> handleSystemBreakingException(Exception ex){
-        System.out.println("well something went really bad :/");
-        System.out.println(ex.getCause());
-        System.out.println(ex.getMessage());    
-        return ResponseEntity
-                .status(500)
-                .build();
+    public ResponseEntity<String> handleSystemBreakingException(Exception ex){  
+        return new ResponseEntity<>(ex.getMessage(), null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler({SQLException.class})
     public ResponseEntity<?> handleSQLException(Exception ex){
         System.out.println("Something failed");
-                return ResponseEntity
-                .status(400)
-                .build();
+        return new ResponseEntity<>(ex.getMessage(), null, HttpStatus.BAD_REQUEST);
+    }
+    
+    @ExceptionHandler({InvalidTableNameException.class})
+    public ResponseEntity<String> handleInvalidTableNameException(Exception ex){
+        return new ResponseEntity<>(ex.getMessage(), null, HttpStatus.BAD_REQUEST);
     }
 }
 

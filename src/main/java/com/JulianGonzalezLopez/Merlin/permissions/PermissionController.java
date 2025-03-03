@@ -48,18 +48,11 @@ public class PermissionController {
                 throw new Error("Permission must be of type permission or capable of transforming into it");
             }
 
-            //CONTENT RELATED ERRORS
-            if(createPermissionRequest.getUser_id() < 1 && createPermissionRequest.getTable_id() < 1){
-                throw new Error("user_id and table_id must be 1 or higher");
-            }        
-
             if(createPermissionRequest.getUser_id() < 1){
                 throw new Error("user_id must be 1 or higher");
             }
-
-            if(createPermissionRequest.getTable_id() < 1){
-                throw new Error("table_id must be 1 or higher");
-            }   
+            
+            //tengo que agr3gar de vuelta lo de las tabklas
         }
         catch(Error e){
             return new ResponseEntity<>(e.getMessage(), null, HttpStatus.BAD_REQUEST);
@@ -83,18 +76,14 @@ public class PermissionController {
             error = "Permission must be of type permission or capable of transforming into it";
         }
 
-        //CONTENT RELATED ERRORS
-        if(createPermissionRequest.getUser_id() < 1 && createPermissionRequest.getTable_id() < 1){
-            error = "user_id and table_id must be 1 or higher";
-        }        
+     
         
         if(createPermissionRequest.getUser_id() < 1){
             error = "user_id must be 1 or higher";
         }
         
-        if(createPermissionRequest.getTable_id() < 1){
-            error = "table_id must be 1 or higher";
-        }
+            //tengo que agr3gar de vuelta lo de las tabklas
+
         
         //ERROR HANDLER
         if(error != null){

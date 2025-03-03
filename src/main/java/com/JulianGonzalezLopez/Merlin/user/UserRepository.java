@@ -31,7 +31,8 @@ public class UserRepository implements UserRepositoryInterface {
     public ArrayList<User> getAll() throws SQLException {
         String query = "SELECT * FROM MerlinUsers";
         try (PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query)) {
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet==null) return null;
             ArrayList<User> resultSetMapped = new ArrayList();
             while(resultSet.next()){
                 User u = new User();
@@ -55,7 +56,7 @@ public class UserRepository implements UserRepositoryInterface {
     
     @Override
     public void delete(int user_id) throws SQLException {
-        String query = "DELETE FROM MerlinUsers WHERE user_id = ?";
+        String query = "DELETE FROM MerlinUsers WHERE id = ?";
         try (PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query)) {
             preparedStatement.setInt(1, user_id);
             preparedStatement.executeUpdate();

@@ -64,6 +64,7 @@ public class EntryController {
     @RequestBody CreateEntryRequest createEntryRequest) throws SQLException{
         
         try{
+            System.out.println(createEntryRequest.getEntry().toString());
             
             if(!(createEntryRequest.getEntry() instanceof Entry) && !(createEntryRequest.getTableName() instanceof String)){
                 throw new Error("entry must be of Entry type and tableName must be of type String");
@@ -92,7 +93,7 @@ public class EntryController {
                 throw new Error("entry.body must be at least 1 character long");
             }
             
-            if(createEntryRequest.getEntry().getCreator_id() > 0){
+            if(createEntryRequest.getEntry().getCreator_id() < 1){
                 throw new Error("entry.creator_id must be 1 or higher");
             }
             

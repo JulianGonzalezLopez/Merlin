@@ -32,6 +32,12 @@ public class CreateEntryRequest {
     public void setTableName(String tableName) {
         this.tableName = tableName;
     }
+
+    @Override
+    public String toString() {
+        return "CreateEntryRequest{" + "entry=" + entry + ", tableName=" + tableName + '}';
+    }
+    
     
     
 }

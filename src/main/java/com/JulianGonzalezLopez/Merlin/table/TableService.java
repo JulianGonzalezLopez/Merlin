@@ -4,6 +4,7 @@
  */
 package com.JulianGonzalezLopez.Merlin.table;
 
+import com.JulianGonzalezLopez.Merlin.exceptions.InvalidTableNameException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,25 @@ public class TableService implements TableServiceInterface {
     }
     
     @Override
-    public void createTable(String name){
+    public void createTable(String name) throws SQLException{
+        
+        if(name.equals("MerlinUsers")){
+            throw new InvalidTableNameException("MerlinUsers is a forbidden table name");
+        }
+        if(name.equals("MerlinTables")){
+            throw new InvalidTableNameException("MerlinTables is a forbidden table name");
+        }
+        if(name.equals("MerlinTablesRelationships")){
+            throw new InvalidTableNameException("MerlinTablesRelationships is a forbidden table name");
+        }
+        if(name.equals("MerlinPermissions")){
+            throw new InvalidTableNameException("MerlinPermissions is a forbidden table name");
+        }        
         tableRepository.createTable(name);
     }
     
     @Override
-    public void deleteTable(String name){
+    public void deleteTable(String name) throws SQLException{
         tableRepository.deleteTable(name);
     }
     

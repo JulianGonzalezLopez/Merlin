@@ -10,17 +10,16 @@ package com.JulianGonzalezLopez.Merlin.permissions;
  */
 public class CreatePermissionRequest {
     private int user_id;
-    private int table_id;
+    private String table_name;
     private Permission permission;
 
-    public CreatePermissionRequest(int user_id, int table_id, Permission permission) {
-        this.user_id = user_id;
-        this.table_id = table_id;
-        this.permission = permission;
+    public CreatePermissionRequest() {
     }
-    
-    public CreatePermissionRequest(){
-        
+
+    public CreatePermissionRequest(int user_id, String table_name, Permission permission) {
+        this.user_id = user_id;
+        this.table_name = table_name;
+        this.permission = permission;
     }
 
     public int getUser_id() {
@@ -31,12 +30,12 @@ public class CreatePermissionRequest {
         this.user_id = user_id;
     }
 
-    public int getTable_id() {
-        return table_id;
+    public String getTable_name() {
+        return table_name;
     }
 
-    public void setTable_id(int table_id) {
-        this.table_id = table_id;
+    public void setTable_name(String table_name) {
+        this.table_name = table_name;
     }
 
     public Permission getPermission() {
@@ -46,5 +45,6 @@ public class CreatePermissionRequest {
     public void setPermission(Permission permission) {
         this.permission = permission;
     }
+    
     
 }

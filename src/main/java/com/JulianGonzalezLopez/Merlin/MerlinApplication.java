@@ -23,12 +23,11 @@ public class MerlinApplication {
             try{
                 Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/MerlinDB?" + "user=root&password=root");
                 String queryMUsers = "CREATE TABLE IF NOT EXISTS MerlinUsers(id int AUTO_INCREMENT, username varchar(50), password varchar(50), PRIMARY KEY(id))";
-                String queryMTables = "CREATE TABLE IF NOT EXISTS MerlinTables(id int AUTO_INCREMENT, name varchar(50), PRIMARY KEY(id))";
-                String queryMPermissions = "CREATE TABLE IF NOT EXISTS MerlinPermissions(user_id int, table_id int , PRIMARY KEY(user_id, table_id), FOREIGN KEY (user_id) REFERENCES MerlinUsers(id) ON DELETE CASCADE, FOREIGN KEY(table_id) REFERENCES MerlinTables(id) ON DELETE CASCADE)";
-                String queryMTableRelationships = "CREATE TABLE IF NOT EXISTS MerlinTablesRelationships(parent_id int, child_id int, PRIMARY KEY(parent_id,child_id), FOREIGN KEY(child_id) REFERENCES MerlinTables(id) ON DELETE CASCADE, FOREIGN KEY(parent_id) REFERENCES MerlinTables(id) ON DELETE CASCADE)";
+                String queryMPermissions = "CREATE TABLE IF NOT EXISTS MerlinPermissions (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, table_name VARCHAR(255) NOT NULL, permission_type ENUM('READ', 'WRITE', 'ADMIN') NOT NULL, UNIQUE KEY (user_id, table_name), FOREIGN KEY (user_id) REFERENCES MerlinUsers(id) ON DELETE CASCADE)";
+                //Aunque se crea, de momento no pienso aplicar las tablas hijas,se me complica mucho rai nau
+                String queryMTableRelationships = "CREATE TABLE IF NOT EXISTS MerlinTablesRelationships(id INT AUTO_INCREMENT PRIMARY KEY, parent_name varchar(255), child_name varchar(255), UNIQUE KEY (parent_name, child_name))";
                 Statement statement = conn.createStatement();
                 statement.execute(queryMUsers);
-                statement.execute(queryMTables);
                 statement.execute(queryMPermissions);
                 statement.execute(queryMTableRelationships);
             }

@@ -60,5 +60,12 @@ public class Entry {
     public void setBody(String body) {
         this.body = body;
     }
+
+    @Override
+    public String toString() {
+        return "Entry{" + "title=" + title + ", body=" + body + ", creator_id=" + creator_id + ", last_editor_id=" + last_editor_id + '}';
+    }
+    
+    
     
 }
