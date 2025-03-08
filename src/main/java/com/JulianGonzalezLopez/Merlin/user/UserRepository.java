@@ -5,7 +5,7 @@
 package com.JulianGonzalezLopez.Merlin.user;
 
 import com.JulianGonzalezLopez.Merlin.DbConnector;
-import com.JulianGonzalezLopez.Merlin.tableRelationship.TableRelationship;
+import com.JulianGonzalezLopez.Merlin.exceptions.SQLExceptionWrapper;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,9 +28,10 @@ public class UserRepository implements UserRepositoryInterface {
     }
     
     @Override
-    public ArrayList<User> getAll() throws SQLException {
+    public ArrayList<User> getAll(){
         String query = "SELECT * FROM MerlinUsers";
-        try (PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query)) {
+        try{
+            PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet==null) return null;
             ArrayList<User> resultSetMapped = new ArrayList();
@@ -41,25 +42,38 @@ public class UserRepository implements UserRepositoryInterface {
                 resultSetMapped.add(u);
             }
             return resultSetMapped;
-        }        
+        }
+        catch(SQLException e){
+            throw new SQLExceptionWrapper(e.getMessage(), "Failed to get all users");
+        }
     }     
 
     @Override
-    public void create(User user) throws SQLException {
+    //NO PERMITIR USUARIOS CON EL MISMO USERNAME
+    public void create(User user){
         String query = "INSERT INTO MerlinUsers(username, password) VALUES (?, ?)";
-        try (PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query)) {
+        try{
+            PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query);
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.executeUpdate();
         }
+        catch(SQLException e){
+            throw new SQLExceptionWrapper(e.getMessage(), "Failed to create user");
+        }
     }
     
     @Override
-    public void delete(int user_id) throws SQLException {
+    //NO PERMITIRA ELIMINAR USUARIOS QUE NO EXISTE O TIRAR ERROR
+    public void delete(int user_id){
         String query = "DELETE FROM MerlinUsers WHERE id = ?";
-        try (PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query)) {
+        try{
+            PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query);
             preparedStatement.setInt(1, user_id);
             preparedStatement.executeUpdate();
+        }
+        catch(SQLException e){
+            throw new SQLExceptionWrapper(e.getMessage(), "Failed to delete user");
         }
     }
 }

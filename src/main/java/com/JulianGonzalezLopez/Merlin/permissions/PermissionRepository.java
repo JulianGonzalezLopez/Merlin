@@ -5,6 +5,7 @@
 package com.JulianGonzalezLopez.Merlin.permissions;
 
 import com.JulianGonzalezLopez.Merlin.DbConnector;
+import com.JulianGonzalezLopez.Merlin.exceptions.SQLExceptionWrapper;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,18 +28,15 @@ public class PermissionRepository implements PermissionRepositoryInterface {
     }
     
     @Override
-    public ArrayList<CreatePermissionRequest> getAll() throws SQLException {
+    public ArrayList<CreatePermissionRequest> getAll(){
         String query = "SELECT * FROM MerlinPermissions";
-        try (PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query)) {
+        try{
+            PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
-            
             if(resultSet == null){
                 return null;
             }
-            
-            ArrayList<CreatePermissionRequest> resultSetMapped = new ArrayList();
-            
-            
+            ArrayList<CreatePermissionRequest> resultSetMapped = new ArrayList();            
             while(resultSet.next()){
                 CreatePermissionRequest p = new CreatePermissionRequest();
                 p.setUser_id(resultSet.getInt("user_id"));
@@ -47,30 +45,40 @@ public class PermissionRepository implements PermissionRepositoryInterface {
                 p.setPermission(permission);
                 resultSetMapped.add(p);
             }
-            
             return resultSetMapped;
-            
-        }        
+        }
+        catch(SQLException e){
+            throw new SQLExceptionWrapper(e.getMessage(), "Failed to fetch permissions");
+        }
     }    
     
     @Override
-    public void create(CreatePermissionRequest createPermissionRequest) throws SQLException {
+    public void create(CreatePermissionRequest createPermissionRequest){
         String query = "INSERT INTO MerlinPermissions(user_id, table_name, permission_type) VALUES (?, ?, ?)";
-        try (PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query)) {
+        try{
+            PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query);
             preparedStatement.setInt(1, createPermissionRequest.getUser_id());
             preparedStatement.setString(2, createPermissionRequest.getTable_name());
             preparedStatement.setString(3, createPermissionRequest.getPermission().toString());
             preparedStatement.executeUpdate();
         }
+        catch(SQLException e){
+            throw new SQLExceptionWrapper(e.getMessage(), "Failed to create a permission");
+        }
     }
     
     @Override
-    public void delete(CreatePermissionRequest createPermissionRequest) throws SQLException {
+    //TIRAR ERROR AL ELIMINAR PERMISOS INEXISTENTES
+    public void delete(CreatePermissionRequest createPermissionRequest){
         String query = "DELETE FROM MerlinPermissions WHERE (user_id = ?) AND (table_name = ?)";
-        try (PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query)) {
+        try{
+            PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query);
             preparedStatement.setInt(1, createPermissionRequest.getUser_id());
             preparedStatement.setString(2, createPermissionRequest.getTable_name());
             preparedStatement.executeUpdate();
+        }
+        catch(SQLException e){
+            throw new SQLExceptionWrapper(e.getMessage(), "Failed to delete permissions");
         }
     }
 }

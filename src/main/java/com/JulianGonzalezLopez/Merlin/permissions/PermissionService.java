@@ -4,7 +4,6 @@
  */
 package com.JulianGonzalezLopez.Merlin.permissions;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,17 +22,15 @@ public class PermissionService implements PermissionServiceInterface {
         this.permissionRepository = permissionRepository;
     }
     
-    public ArrayList<CreatePermissionRequest> getAll() throws SQLException {
+    public ArrayList<CreatePermissionRequest> getAll(){
         return permissionRepository.getAll();
     }
-    
-
-    
-    public void create(CreatePermissionRequest createPermissionRequest)throws SQLException {
+  
+    public void create(CreatePermissionRequest createPermissionRequest){
         permissionRepository.create(createPermissionRequest);
     }
             
-    public void delete(CreatePermissionRequest createPermissionRequest)throws SQLException {
+    public void delete(CreatePermissionRequest createPermissionRequest){
         permissionRepository.delete(createPermissionRequest);
     }
     

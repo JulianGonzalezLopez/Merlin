@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author julian.gonzalez
  */
 public interface TableRepositoryInterface {
-    public void createTable(String name) throws SQLException;
-    public void deleteTable(String name) throws SQLException;
-    public ArrayList<String> getAll() throws SQLException;
+    public void createTable(String name);
+    public void deleteTable(String name);
+    public ArrayList<String> getAll();
 }

@@ -4,8 +4,9 @@
  */
 package com.JulianGonzalezLopez.Merlin.permissions;
 
-import java.sql.SQLException;
+import com.JulianGonzalezLopez.Merlin.exceptions.InvalidInputValueException;
 import java.util.ArrayList;
+import static org.slf4j.helpers.Reporter.error;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class PermissionController {
     }
     
     @GetMapping("/all")
-    public ResponseEntity<ArrayList<CreatePermissionRequest>> getAll() throws SQLException {
+    public ResponseEntity<ArrayList<CreatePermissionRequest>> getAll(){
         ArrayList<CreatePermissionRequest> all = permissionService.getAll();
         return new ResponseEntity<>(all, null, HttpStatus.ACCEPTED);
     }
@@ -40,57 +41,30 @@ public class PermissionController {
     
     @PostMapping("/")
     public ResponseEntity<?> create(
-        @RequestBody CreatePermissionRequest createPermissionRequest) throws SQLException {
+        @RequestBody CreatePermissionRequest createPermissionRequest){
 
-        try{
-            //TYPE ERRORS
-            if(!(createPermissionRequest.getPermission() instanceof Permission)){
-                throw new Error("Permission must be of type permission or capable of transforming into it");
-            }
+        if(!(createPermissionRequest.getPermission() instanceof Permission)){
+            throw new InvalidInputValueException("Permission must be of type permission or capable of transforming into it");
+        }
+        if(createPermissionRequest.getUser_id() < 1){
+            throw new InvalidInputValueException("user_id must be 1 or higher");
+        }
 
-            if(createPermissionRequest.getUser_id() < 1){
-                throw new Error("user_id must be 1 or higher");
-            }
-            
-            //tengo que agr3gar de vuelta lo de las tabklas
-        }
-        catch(Error e){
-            return new ResponseEntity<>(e.getMessage(), null, HttpStatus.BAD_REQUEST);
-        }
-        
-        //NORMAL WORLFLOW
-        permissionService.create(createPermissionRequest);
-        
+        permissionService.create(createPermissionRequest);        
         return new ResponseEntity<>("CREATED", null, HttpStatus.ACCEPTED);
     }
           
     @DeleteMapping("/")
     public ResponseEntity<String> delete(
-        @RequestBody CreatePermissionRequest createPermissionRequest) throws SQLException {
+    @RequestBody CreatePermissionRequest createPermissionRequest){
         
-        String error = null;
-
-        //TYPE ERRORS
-        //Checkeo de primitivos realizado por Java
         if(!(createPermissionRequest.getPermission() instanceof Permission)){
-            error = "Permission must be of type permission or capable of transforming into it";
+            throw new InvalidInputValueException("Permission must be of type permission or capable of transforming into it");
         }
-
-     
-        
         if(createPermissionRequest.getUser_id() < 1){
-            error = "user_id must be 1 or higher";
+            throw new InvalidInputValueException("user_id must be 1 or higher");
         }
         
-            //tengo que agr3gar de vuelta lo de las tabklas
-
-        
-        //ERROR HANDLER
-        if(error != null){
-            return new ResponseEntity<>(error, null, HttpStatus.BAD_REQUEST);
-        }
-              
-        //NORMAL WORLFLOW
         permissionService.delete(createPermissionRequest);  
         return new ResponseEntity<>("DELETED", null, HttpStatus.ACCEPTED);
     }

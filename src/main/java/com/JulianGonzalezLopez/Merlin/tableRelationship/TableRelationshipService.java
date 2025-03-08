@@ -25,17 +25,17 @@ public class TableRelationshipService implements TableRelationshipServiceInterfa
     }
     
     @Override
-    public ArrayList<TableRelationship> getAll() throws SQLException {
+    public ArrayList<TableRelationship> getAll(){
         return tableRelationshipRepository.getAll();
     }
     
     @Override
-    public void create(TableRelationship tableRelationship) throws SQLException {
+    public void create(TableRelationship tableRelationship){
         tableRelationshipRepository.create(tableRelationship);
     }
     
     @Override
-    public void delete(TableRelationship tableRelationship) throws SQLException {
+    public void delete(TableRelationship tableRelationship){
         tableRelationshipRepository.delete(tableRelationship);
     }
 }

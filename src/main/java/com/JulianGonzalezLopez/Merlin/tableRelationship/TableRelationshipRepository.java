@@ -5,6 +5,7 @@
 package com.JulianGonzalezLopez.Merlin.tableRelationship;
 
 import com.JulianGonzalezLopez.Merlin.DbConnector;
+import com.JulianGonzalezLopez.Merlin.exceptions.SQLExceptionWrapper;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,9 +28,10 @@ public class TableRelationshipRepository implements TableRelationshipRepositoryI
     }
     
     @Override
-    public ArrayList<TableRelationship> getAll() throws SQLException {
+    public ArrayList<TableRelationship> getAll(){
         String query = "SELECT * FROM MerlinTablesRelationships";
-        try (PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query)) {
+        try{
+            PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query);
             ResultSet resultSet = preparedStatement.getResultSet();
             ArrayList<TableRelationship> resultSetMapped = new ArrayList();
             while(resultSet.next()){
@@ -39,26 +41,37 @@ public class TableRelationshipRepository implements TableRelationshipRepositoryI
                 resultSetMapped.add(tr);
             }
             return resultSetMapped;
-        }        
+        }
+        catch(SQLException e){
+            throw new SQLExceptionWrapper(e.getMessage(), "Failed to fetch table relationships");
+        }
     }      
     
     @Override
-    public void create(TableRelationship tableRelationship) throws SQLException {
+    public void create(TableRelationship tableRelationship){
         String query = "INSERT INTO MerlinTablesRelationships(parent_id, child_id) VALUES (?, ?)";
-        try (PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query)) {
+        try{
+            PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query);
             preparedStatement.setInt(1, tableRelationship.getParent_id());
             preparedStatement.setInt(2, tableRelationship.getChild_id());
             preparedStatement.executeUpdate();
         }
+        catch (SQLException e){
+            throw new SQLExceptionWrapper(e.getMessage(), "Failed to create a table relationship");
+        }
     }
     
     @Override
-    public void delete(TableRelationship tableRelationship) throws SQLException {
+    public void delete(TableRelationship tableRelationship){
         String query = "DELETE FROM MerlinTablesRelationships WHERE (parent_id = ?) AND (child_id = ?)";
-        try (PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query)) {
+        try{
+            PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query);
             preparedStatement.setInt(1, tableRelationship.getParent_id());
             preparedStatement.setInt(2, tableRelationship.getChild_id());
             preparedStatement.executeUpdate();
+        }
+        catch(SQLException e){
+            throw new SQLExceptionWrapper(e.getMessage(), "Failed to delete a table relationship");
         }
     }
    

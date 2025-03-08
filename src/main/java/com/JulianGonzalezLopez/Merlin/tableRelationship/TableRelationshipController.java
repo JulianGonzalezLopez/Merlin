@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Julian
  */
 @RestController
-@RequestMapping("/tableRelationship")
+@RequestMapping("/demomentocanceloestaparteporquesemecomplicomucholaverdad")
 public class TableRelationshipController {
     
     private final TableRelationshipServiceInterface tableRelationshipService;
@@ -28,6 +28,7 @@ public class TableRelationshipController {
         this.tableRelationshipService = tableRelationshipService;
     }
     
+    /**
     @GetMapping("/")
     public ResponseEntity<ArrayList<TableRelationship>> getAll() throws SQLException {
         ArrayList<TableRelationship> all = tableRelationshipService.getAll(); 
@@ -77,5 +78,5 @@ public class TableRelationshipController {
         tableRelationshipService.delete(tableRelationship);
         return new ResponseEntity<>("DELETED", null, HttpStatus.ACCEPTED);
     }
-    
+    **/
 }

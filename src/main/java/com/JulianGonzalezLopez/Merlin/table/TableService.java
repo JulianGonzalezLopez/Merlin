@@ -7,6 +7,8 @@ package com.JulianGonzalezLopez.Merlin.table;
 import com.JulianGonzalezLopez.Merlin.exceptions.InvalidTableNameException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,30 +27,26 @@ public class TableService implements TableServiceInterface {
     }
     
     @Override
-    public ArrayList<String> getAll() throws SQLException {
-        return tableRepository.getAll();
+    public ArrayList<String> getAll(){
+        Set<String> forbiddenTables = Set.of("merlinusers", "merlintables", "merlinrelationships", "merlinpermissions");
+        return new ArrayList<>(tableRepository.getAll().stream()
+            .filter(x -> !forbiddenTables.contains(x.toLowerCase()))
+            .collect(Collectors.toList())); 
     }
     
     @Override
-    public void createTable(String name) throws SQLException{
-        
-        if(name.equals("MerlinUsers")){
-            throw new InvalidTableNameException("MerlinUsers is a forbidden table name");
+    public void createTable(String name){
+        if(name.toLowerCase().equals("merlinusers") || name.toLowerCase().equals("merlintables") || name.toLowerCase().equals("merlintablesrelationships") || name.toLowerCase().equals("merlinpermissions")){
+            throw new InvalidTableNameException("Invalid table name");
         }
-        if(name.equals("MerlinTables")){
-            throw new InvalidTableNameException("MerlinTables is a forbidden table name");
-        }
-        if(name.equals("MerlinTablesRelationships")){
-            throw new InvalidTableNameException("MerlinTablesRelationships is a forbidden table name");
-        }
-        if(name.equals("MerlinPermissions")){
-            throw new InvalidTableNameException("MerlinPermissions is a forbidden table name");
-        }        
         tableRepository.createTable(name);
     }
     
     @Override
-    public void deleteTable(String name) throws SQLException{
+    public void deleteTable(String name){
+        if(name.toLowerCase().equals("merlinusers") || name.toLowerCase().equals("merlintables") || name.toLowerCase().equals("merlintablesrelationships") || name.toLowerCase().equals("merlinpermissions")){
+            throw new InvalidTableNameException("Invalid table name");
+        }        
         tableRepository.deleteTable(name);
     }
     

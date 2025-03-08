@@ -4,7 +4,7 @@
  */
 package com.JulianGonzalezLopez.Merlin.table;
 
-import java.sql.SQLException;
+import com.JulianGonzalezLopez.Merlin.exceptions.InvalidInputValueException;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,7 +33,7 @@ public class TableController {
     }
     
     @GetMapping("/all")
-    public ResponseEntity<ArrayList<String>> getAll() throws SQLException {
+    public ResponseEntity<ArrayList<String>> getAll(){
         ArrayList<String> all = tableService.getAll();
         
         return new ResponseEntity<>(all, null, HttpStatus.ACCEPTED);
@@ -41,51 +41,33 @@ public class TableController {
     
     
     @PostMapping("/")
+    //NO PERMITIR ESPACIOS, NOMBRES DE MERLIN NI NUMEROS O CARACTERES ESPECIALES
     public ResponseEntity<String> createTable(
-    @RequestBody String tableName) throws SQLException {
+    @RequestBody String tableName){
         
-        try{
-        //TYPE ERRORS
         if(!(tableName instanceof String)){
-            throw new Error("tableName must be of type String");
+            throw new InvalidInputValueException("tableName must be of type String");
+        }
+        if(tableName.length() < 1){
+            throw new InvalidInputValueException("tableName must be at least 1 character long");
         }
         
-        //CONTENT ERRORS
-        if(tableName.length() < 1){
-            throw new Error("tableName must be at least 1 character long");
-        }
-
-        }
-        catch(Error e){
-            return new ResponseEntity<>(e.getMessage(), null, HttpStatus.BAD_REQUEST);
-        }
-                 
-        //NORMAL WORLFLOW
         tableService.createTable(tableName);
         return new ResponseEntity<>("CREATED", null, HttpStatus.ACCEPTED);
     }
     
     @DeleteMapping("/")
+    //SI ELIMINAS UNA TABLA 2 VECES TIRA "UNKNOW TABLE"
     public ResponseEntity<String> deleteTable(
-    @RequestBody String tableName) throws SQLException {
+    @RequestBody String tableName){
         
-        try{
-        //TYPE ERRORS
         if(!(tableName instanceof String)){
-            throw new Error("tableName must be of type String");
+            throw new InvalidInputValueException("tableName must be of type String");
         }
-        
-        //CONTENT ERRORS
         if(tableName.length() < 1){
-            throw new Error("tableName must be at least 1 character long");
-        }
-
-        }
-        catch(Error e){
-            return new ResponseEntity<>(e.getMessage(), null, HttpStatus.BAD_REQUEST);
+            throw new InvalidInputValueException("tableName must be at least 1 character long");
         }
                  
-        //NORMAL WORLFLOW
         tableService.deleteTable(tableName);
         return new ResponseEntity<>("DELETED", null, HttpStatus.ACCEPTED);
     }

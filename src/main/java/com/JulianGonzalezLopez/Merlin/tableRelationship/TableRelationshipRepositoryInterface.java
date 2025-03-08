@@ -12,8 +12,8 @@ import java.util.ArrayList;
  * @author Julian
  */
 public interface TableRelationshipRepositoryInterface {
-    public void create(TableRelationship tableRelationship) throws SQLException;
-    public void delete(TableRelationship tableRelationship) throws SQLException;
-    public ArrayList<TableRelationship> getAll() throws SQLException;
+    public void create(TableRelationship tableRelationship);
+    public void delete(TableRelationship tableRelationship);
+    public ArrayList<TableRelationship> getAll();
 }
 

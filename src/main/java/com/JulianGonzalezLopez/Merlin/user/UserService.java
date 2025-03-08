@@ -15,7 +15,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserService implements UserServiceInterface {
-    UserRepositoryInterface userRepository;
+    
+    private final UserRepositoryInterface userRepository;
     
     @Autowired
     public UserService(UserRepositoryInterface userRepository){
@@ -23,17 +24,17 @@ public class UserService implements UserServiceInterface {
     }
     
     @Override
-    public ArrayList<User> getAll() throws SQLException {
+    public ArrayList<User> getAll(){
         return userRepository.getAll();
     }
 
     @Override
-    public void create(User user) throws SQLException {
+    public void create(User user){
         userRepository.create(user);
     }
     
     @Override
-    public void delete(int user_id)throws SQLException {
+    public void delete(int user_id){
         userRepository.delete(user_id);
     }
 }

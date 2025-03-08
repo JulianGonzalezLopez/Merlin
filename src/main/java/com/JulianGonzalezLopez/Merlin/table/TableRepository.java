@@ -6,13 +6,11 @@ package com.JulianGonzalezLopez.Merlin.table;
 
 
 import com.JulianGonzalezLopez.Merlin.DbConnector;
-import com.JulianGonzalezLopez.Merlin.permissions.CreatePermissionRequest;
-import com.JulianGonzalezLopez.Merlin.permissions.Permission;
+import com.JulianGonzalezLopez.Merlin.exceptions.SQLExceptionWrapper;
 import org.springframework.stereotype.Repository;
 //import com.mysql.jdbc.Driver;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +29,7 @@ public class TableRepository implements TableRepositoryInterface {
     }
     
     @Override
-    public ArrayList<String> getAll() throws SQLException {
+    public ArrayList<String> getAll(){
         String query = "SHOW TABLES";
         try {
             ResultSet resultSet = dbConnector.getConn().prepareStatement(query).executeQuery();
@@ -42,14 +40,13 @@ public class TableRepository implements TableRepositoryInterface {
             }
             return resultSetMapped;
         }  
-        catch(Error e){
-            System.out.println(e);
-            throw new SQLException(e.getMessage());
+        catch(SQLException e){
+            throw new SQLExceptionWrapper(e.getMessage(), "Failed to fetch all the tables");
         }
     }    
     
     @Override
-    public void createTable(String name) throws SQLException{
+    public void createTable(String name){
         try{
             String query = "CREATE TABLE `" + name + "` (id int AUTO_INCREMENT, title varchar(255), body varchar(255),creator_id int,last_editor_id int, PRIMARY KEY(id))";
             System.out.println(query);
@@ -57,19 +54,19 @@ public class TableRepository implements TableRepositoryInterface {
             statement.execute(query);
         }
         catch(SQLException e){
-            throw e;
+            throw new SQLExceptionWrapper(e.getMessage(), "Failed to create table");
         }
 
     }
     @Override
-    public void deleteTable(String name) throws SQLException{
+    public void deleteTable(String name){
         try{
             String query = "DROP TABLE `" + name + "`";
             Statement statement = dbConnector.getConn().createStatement();
             statement.execute(query);
         }
         catch(SQLException e){
-            throw e;
+            throw new SQLExceptionWrapper(e.getMessage(), "Failed to delete table");
         }
     }    
     

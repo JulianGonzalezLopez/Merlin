@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public interface EntryServiceInterface {
 
-    public void create(CreateEntryRequest createEntryRequest) throws SQLException;
-    public void delete(int id, String tableName) throws SQLException;
-    public ArrayList<Entry> getAll(String tableName) throws SQLException;
+    public void create(CreateEntryRequest createEntryRequest);
+    public void delete(int id, String tableName);
+    public ArrayList<Entry> getAll(String tableName);
 }

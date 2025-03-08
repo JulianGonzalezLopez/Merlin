@@ -4,7 +4,6 @@
  */
 package com.JulianGonzalezLopez.Merlin.entry;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EntryService implements EntryServiceInterface {
 
-    private EntryRepositoryInterface entryRepository;
+    private final EntryRepositoryInterface entryRepository;
     
     @Autowired
     public EntryService(EntryRepositoryInterface entryRepository){
@@ -24,16 +23,16 @@ public class EntryService implements EntryServiceInterface {
     }
     
     @Override
-    public ArrayList<Entry> getAll(String tableName) throws SQLException {
+    public ArrayList<Entry> getAll(String tableName){
         return entryRepository.getAll(tableName);
     }
     
     @Override
-    public void create(CreateEntryRequest createEntryRequest) throws SQLException{
+    public void create(CreateEntryRequest createEntryRequest){
         entryRepository.create(createEntryRequest);
     }
     @Override
-    public void delete(int id, String tableName) throws SQLException {
+    public void delete(int id, String tableName){
         entryRepository.delete(id, tableName);
     }
     
