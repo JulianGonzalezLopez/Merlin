@@ -64,11 +64,23 @@ public class EntryController {
         if(!(createEntryRequest.getTableName() instanceof String)){
             throw new InvalidInputValueException("tableName must be of String type");
         }  
+        if(createEntryRequest.getTableName().length() < 1){
+            throw new InvalidInputValueException("tableName must be at least 1 character long");
+        }  
+        if(createEntryRequest.getTableName().length() > 64){
+            throw new InvalidInputValueException("tableName can be up to 64 characters long");
+        }          
         if(createEntryRequest.getEntry().getTitle().length() < 1){
             throw new InvalidInputValueException("entry.title must be at least 1 character long");
         }   
+        if(createEntryRequest.getEntry().getTitle().length() > 255){
+            throw new InvalidInputValueException("entry.title can be up to 255 characters long");
+        }           
         if(createEntryRequest.getEntry().getBody().length() < 1){
             throw new InvalidInputValueException("entry.body must be at least 1 character long");
+        }
+        if(createEntryRequest.getEntry().getBody().length() > 4000){
+            throw new InvalidInputValueException("entry.body can be up to 4000 characters long");
         }  
         if(createEntryRequest.getEntry().getCreator_id() < 1){
             throw new InvalidInputValueException("entry.creator_id must be 1 or higher");
@@ -99,7 +111,7 @@ public class EntryController {
             throw new InvalidInputValueException("tableName must be at least 1 character long");
         }        
         if(tableName.length() > 64){
-            throw new InvalidInputValueException("tableName must be less than 64 character long");
+            throw new InvalidInputValueException("tableName can be up to 64 characters long");
         }
             
         entryService.delete(id, tableName);

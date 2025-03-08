@@ -51,6 +51,9 @@ public class TableController {
         if(tableName.length() < 1){
             throw new InvalidInputValueException("tableName must be at least 1 character long");
         }
+        if(tableName.length() > 64){
+            throw new InvalidInputValueException("tableName must be 64 characters or less");
+        }
         
         tableService.createTable(tableName);
         return new ResponseEntity<>("CREATED", null, HttpStatus.ACCEPTED);
@@ -67,7 +70,10 @@ public class TableController {
         if(tableName.length() < 1){
             throw new InvalidInputValueException("tableName must be at least 1 character long");
         }
-                 
+        if(tableName.length() > 64){
+            throw new InvalidInputValueException("Invalid tableName");
+        }        
+                
         tableService.deleteTable(tableName);
         return new ResponseEntity<>("DELETED", null, HttpStatus.ACCEPTED);
     }

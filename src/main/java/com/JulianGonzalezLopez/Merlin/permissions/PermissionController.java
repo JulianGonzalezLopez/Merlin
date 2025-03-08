@@ -38,7 +38,6 @@ public class PermissionController {
         return new ResponseEntity<>(all, null, HttpStatus.ACCEPTED);
     }
 
-    
     @PostMapping("/")
     public ResponseEntity<?> create(
         @RequestBody CreatePermissionRequest createPermissionRequest){
@@ -49,6 +48,12 @@ public class PermissionController {
         if(createPermissionRequest.getUser_id() < 1){
             throw new InvalidInputValueException("user_id must be 1 or higher");
         }
+        if(createPermissionRequest.getTable_name().length() > 64){
+            throw new InvalidInputValueException("Invalid tableName");
+        }
+        if(createPermissionRequest.getTable_name().length() < 1){
+            throw new InvalidInputValueException("Invalid tableName");
+        }        
 
         permissionService.create(createPermissionRequest);        
         return new ResponseEntity<>("CREATED", null, HttpStatus.ACCEPTED);
@@ -64,6 +69,12 @@ public class PermissionController {
         if(createPermissionRequest.getUser_id() < 1){
             throw new InvalidInputValueException("user_id must be 1 or higher");
         }
+        if(createPermissionRequest.getTable_name().length() > 64){
+            throw new InvalidInputValueException("Invalid tableName");
+        }
+        if(createPermissionRequest.getTable_name().length() < 1){
+            throw new InvalidInputValueException("Invalid tableName");
+        }  
         
         permissionService.delete(createPermissionRequest);  
         return new ResponseEntity<>("DELETED", null, HttpStatus.ACCEPTED);

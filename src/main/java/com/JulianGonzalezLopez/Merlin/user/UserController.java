@@ -57,8 +57,14 @@ public class UserController {
         if(user.getUsername().length() < 1){
             throw new InvalidInputValueException("username must be at least 1 character long");
         }
+        if(user.getUsername().length() > 50){
+            throw new InvalidInputValueException("username must be less than 50 characters long");
+        }
         if(user.getPassword().length() < 8){
             throw new InvalidInputValueException("password must be at least 8 characters long");
+        }
+        if(user.getPassword().length() > 50){
+            throw new InvalidInputValueException("password must be less than 50 characters long");
         }
             
         userService.create(user);
@@ -70,7 +76,7 @@ public class UserController {
     @RequestParam int user_id){
         
         if(user_id < 1){
-            throw new InvalidInputValueException("user_id must be at least 1 character long");
+            throw new InvalidInputValueException("user_id can't be 0 or negative");
         }
             
         userService.delete(user_id);

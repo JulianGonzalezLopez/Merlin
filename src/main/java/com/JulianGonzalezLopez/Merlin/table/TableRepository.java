@@ -48,7 +48,7 @@ public class TableRepository implements TableRepositoryInterface {
     @Override
     public void createTable(String name){
         try{
-            String query = "CREATE TABLE `" + name + "` (id int AUTO_INCREMENT, title varchar(255), body varchar(255),creator_id int,last_editor_id int, PRIMARY KEY(id))";
+            String query = "CREATE TABLE `" + name + "` (id int AUTO_INCREMENT, title varchar(255), body varchar(4000),creator_id int,last_editor_id int, PRIMARY KEY(id))";
             System.out.println(query);
             Statement statement = dbConnector.getConn().createStatement();
             statement.execute(query);
