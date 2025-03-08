@@ -8,8 +8,12 @@ package com.JulianGonzalezLopez.Merlin.exceptions;
  *
  * @author julian.gonzalez
  */
-public class SystemBreakingException extends Exception {
-    public SystemBreakingException(String message){
+public class SystemBreakingException extends RuntimeException {
+    
+    Exception originalException;
+    
+    public SystemBreakingException(String message, Exception originalException){
         super(message);
+        this.originalException = originalException;
     }    
 }

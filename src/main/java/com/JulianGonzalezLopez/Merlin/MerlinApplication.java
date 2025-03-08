@@ -1,5 +1,6 @@
 package com.JulianGonzalezLopez.Merlin;
 
+import com.JulianGonzalezLopez.Merlin.exceptions.SystemBreakingException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -32,8 +33,7 @@ public class MerlinApplication {
                 statement.execute(queryMTableRelationships);
             }
             catch (SQLException e){
-                System.out.println("Something broke down in the setup system, check the existance of merlindb and that your credentials are OK. Besitos");
-                System.out.println("Error: " + e.getMessage());
+                throw new SystemBreakingException("Problems ocurred while setting up the DB connection", e);
             }
         }
 
