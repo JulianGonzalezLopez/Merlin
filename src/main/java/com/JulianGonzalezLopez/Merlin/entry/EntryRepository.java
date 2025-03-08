@@ -9,6 +9,7 @@ import com.JulianGonzalezLopez.Merlin.exceptions.SQLExceptionWrapper;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -57,10 +58,15 @@ public class EntryRepository implements EntryRepositoryInterface {
     public void create(CreateEntryRequest createEntryRequest){
         String query = "INSERT INTO " + createEntryRequest.getTableName() + " (title, body) VALUES (?, ?)";
         try{
-            PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query);
+            PreparedStatement preparedStatement = dbConnector.getConn().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, createEntryRequest.getEntry().getTitle());
             preparedStatement.setString(2, createEntryRequest.getEntry().getBody());
             preparedStatement.executeUpdate();
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+            //Esto anda, lo guardo para otros usos aca jejox
+            rs.next();
+            System.out.println(rs.getInt(1));
+            //Esto anda, lo guardo para otros usos aca jejox
         }
         catch(SQLException e){
             throw new SQLExceptionWrapper(e.getMessage(), "Failed to create an entry");
