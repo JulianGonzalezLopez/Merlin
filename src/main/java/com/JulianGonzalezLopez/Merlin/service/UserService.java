@@ -6,9 +6,12 @@ package com.JulianGonzalezLopez.Merlin.service;
 
 import com.JulianGonzalezLopez.Merlin.repository.UserRepositoryInterface;
 import com.JulianGonzalezLopez.Merlin.model.User;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,10 +22,16 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserServiceInterface {
     
     private final UserRepositoryInterface userRepository;
+    private final AuthenticationManager authenticationManager;
+    private final JWTService jwtService;
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+    
     
     @Autowired
-    public UserService(UserRepositoryInterface userRepository){
+    public UserService(UserRepositoryInterface userRepository, AuthenticationManager authenticationManager, JWTService jwtService){
         this.userRepository = userRepository;
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
     }
     
     @Override
@@ -32,6 +41,7 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public void create(User user){
+        user.setPassword(encoder.encode(user.getPassword()));
         userRepository.create(user);
     }
     
@@ -39,4 +49,15 @@ public class UserService implements UserServiceInterface {
     public void delete(int user_id){
         userRepository.delete(user_id);
     }
+    
+    @Override
+    public String verify(User u){
+        Authentication authentication = authenticationManager
+                .authenticate( new UsernamePasswordAuthenticationToken(u.getUsername(), u.getPassword()));
+        if(authentication.isAuthenticated()){
+            return jwtService.generateToken(u.getUsername());
+        }
+        return "fail";
+    }
+
 }

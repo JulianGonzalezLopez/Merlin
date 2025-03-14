@@ -19,10 +19,12 @@ import org.springframework.stereotype.Service;
 public class EntryService implements EntryServiceInterface {
 
     private final EntryRepositoryInterface entryRepository;
+    private final PermissionServiceInterface permissionService;
     
     @Autowired
-    public EntryService(EntryRepositoryInterface entryRepository){
+    public EntryService(EntryRepositoryInterface entryRepository, PermissionServiceInterface permissionService){
         this.entryRepository = entryRepository;
+        this.permissionService = permissionService;
     }
     
     @Override

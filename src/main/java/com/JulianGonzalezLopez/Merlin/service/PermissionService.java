@@ -4,6 +4,7 @@
  */
 package com.JulianGonzalezLopez.Merlin.service;
 
+import com.JulianGonzalezLopez.Merlin.exceptions.PermissionsLackingException;
 import com.JulianGonzalezLopez.Merlin.repository.PermissionRepositoryInterface;
 import com.JulianGonzalezLopez.Merlin.model.CreatePermissionRequest;
 import java.util.ArrayList;
@@ -26,6 +27,16 @@ public class PermissionService implements PermissionServiceInterface {
     
     public ArrayList<CreatePermissionRequest> getAll(){
         return permissionRepository.getAll();
+    }
+    
+    public CreatePermissionRequest checkPermission(String tableName, int userID){
+        ArrayList<CreatePermissionRequest> permissions = permissionRepository.getAll();
+        for(CreatePermissionRequest permission : permissions){
+            if(permission.getUser_id() == userID && permission.getTable_name().equals(tableName)){
+                return permission;
+            }
+        }
+        throw new PermissionsLackingException("You don't have the rights to acces table: " + tableName);
     }
   
     public void create(CreatePermissionRequest createPermissionRequest){

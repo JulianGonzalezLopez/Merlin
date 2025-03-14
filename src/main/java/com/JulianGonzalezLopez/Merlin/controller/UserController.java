@@ -84,4 +84,10 @@ public class UserController {
         userService.delete(user_id);
         return new ResponseEntity("DELETED", null, HttpStatus.ACCEPTED);
     }
+    
+    @PostMapping("/login")
+    public String login(@RequestBody User user) {
+        System.out.println("OAAA");
+        return userService.verify(user);
+    }
 }

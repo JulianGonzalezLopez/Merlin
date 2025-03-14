@@ -5,7 +5,6 @@
 package com.JulianGonzalezLopez.Merlin.service;
 
 import com.JulianGonzalezLopez.Merlin.model.User;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -16,5 +15,5 @@ public interface UserServiceInterface {
     public void create(User user);
     public void delete(int user_id);
     public ArrayList<User> getAll();
-
+    public String verify(User u);
 }

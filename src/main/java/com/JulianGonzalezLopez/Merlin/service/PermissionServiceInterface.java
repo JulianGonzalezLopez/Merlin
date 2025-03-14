@@ -16,5 +16,5 @@ public interface PermissionServiceInterface {
     public void create(CreatePermissionRequest createPermissionRequest);
     public void delete(CreatePermissionRequest createPermissionRequest);
     public ArrayList<CreatePermissionRequest> getAll();
-
+    public CreatePermissionRequest checkPermission(String tableName, int userID);
 }
